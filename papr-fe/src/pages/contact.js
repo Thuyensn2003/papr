@@ -46,7 +46,7 @@ const ContactPage = () => {
                 <div className="container">
                     <div className="section-title">
                         <h2 className="axil-title m-b-xs-40">
-                            Our Location
+                            Vị trí của chúng tôi
                         </h2>
                     </div>
                     {/* End of .section-title */}

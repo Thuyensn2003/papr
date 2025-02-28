@@ -8,7 +8,7 @@
 		<version>3.4.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.viet.dev</groupId>
+	<groupId>com.thuyen.dev</groupId>
 	<artifactId>papr</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>papr</name>

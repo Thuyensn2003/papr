@@ -1,6 +1,6 @@
-package com.viet.dev.papr.dto;
+package com.thuyen.dev.papr.dto;
 
-import com.viet.dev.papr.entity.AuthorSocial;
+import com.thuyen.dev.papr.entity.AuthorSocial;
 import lombok.*;
 
 import java.util.List;

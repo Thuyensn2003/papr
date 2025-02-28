@@ -1,4 +1,4 @@
-package com.viet.dev.papr.entity;
+package com.thuyen.dev.papr.entity;
 
 import lombok.*;
 

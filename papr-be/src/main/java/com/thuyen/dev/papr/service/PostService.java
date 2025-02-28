@@ -1,9 +1,9 @@
-package com.viet.dev.papr.service;
+package com.thuyen.dev.papr.service;
 
-import com.viet.dev.papr.dto.PostDto;
-import com.viet.dev.papr.entity.AuthorSocial;
-import com.viet.dev.papr.entity.Post;
-import com.viet.dev.papr.repository.PostRepository;
+import com.thuyen.dev.papr.dto.PostDto;
+import com.thuyen.dev.papr.entity.AuthorSocial;
+import com.thuyen.dev.papr.entity.Post;
+import com.thuyen.dev.papr.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +37,8 @@ public class PostService {
                 .post_views(post.getPost_views())
                 .author_social(getDefaultAuthorSocial())
                 .content(post.getContent())
-                .gallery(List.of("/images/posts/gallery-1.png", "/images/posts/gallery-2.png", "/images/posts/gallery-3.png", "/images/posts/gallery-4.png"))
+                .gallery(List.of("/images/posts/gallery-1.png", "/images/posts/gallery-2.png",
+                        "/images/posts/gallery-3.png", "/images/posts/gallery-4.png"))
                 .build();
     }
 
@@ -45,7 +46,6 @@ public class PostService {
         return List.of(
                 new AuthorSocial("facebook", "https://www.facebook.com/"),
                 new AuthorSocial("twitter", "https://twitter.com/"),
-                new AuthorSocial("instagram", "https://www.instagram.com/")
-        );
+                new AuthorSocial("instagram", "https://www.instagram.com/"));
     }
 }

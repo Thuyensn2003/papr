@@ -1,6 +1,6 @@
-package com.viet.dev.papr.repository;
+package com.thuyen.dev.papr.repository;
 
-import com.viet.dev.papr.entity.Post;
+import com.thuyen.dev.papr.entity.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
