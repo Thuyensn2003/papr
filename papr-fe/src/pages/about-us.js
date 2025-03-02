@@ -21,8 +21,8 @@ const AboutUs = ({ aboutData, allPosts }) => {
         <>
             <HeadMeta metaTitle="About Us" />
             <HeaderOne />
-            <Breadcrumb aPage="About Us" />
-            <BreadcrumbBanner pageTitle="About Us" />
+            <Breadcrumb aPage="Về chúng tôi" />
+            <BreadcrumbBanner pageTitle="Về chúng tôi" />
             <div className="axil-about-us section-gap-top p-b-xs-20">
                 <div className="container">
                     <figure className="m-b-xs-40">
@@ -54,11 +54,11 @@ const AboutUs = ({ aboutData, allPosts }) => {
             <div className="axil-our-team section-gap section-gap-top__with-text bg-grey-light-three">
                 <div className="container">
                     <div className="axil-team-grid-wrapper">
-                        <SectionTitleTwo title="Meet Our Publishing Authors" paragraph="Wherever &amp; whenever you need us. We are here for you - contact us for all your support needs, <br> be it technical, general queries or information support." />
+                        <SectionTitleTwo title="" />
                         <div className="row">
                             {AuthorList.slice(0, 6).map((data) => (
                                 <div className="col-lg-4" key={data.slug}>
-                                   <TeamOne data={data} />
+                                    <TeamOne data={data} />
                                 </div>
                             ))}
                         </div>

@@ -14,12 +14,11 @@ const ContactPage = () => {
         <>
             <HeadMeta metaTitle="Contact Us" />
             <HeaderOne />
-            <Breadcrumb aPage="Contact Us" />
-            <BreadcrumbBanner pageTitle="Contact Us" />
+            <Breadcrumb aPage="Liên hệ" />
+            <BreadcrumbBanner pageTitle="Liên hệ" />
             <div className="axil-about-us section-gap  section-gap-top__with-text">
                 <div className="container">
-                    <SectionTitleTwo title="Meet Our Publishing Authors" paragraph="Wherever &amp; whenever you need us. We are here for you - contact us for all your support needs,
-                        <br />be it technical, general queries or information support." />
+                    <SectionTitleTwo title="" />
                     <figure className="m-b-xs-30 p-t-xs-10">
                         <Image
                             src="/images/contact-banner.jpg"
@@ -51,7 +50,7 @@ const ContactPage = () => {
                     </div>
                     {/* End of .section-title */}
                     <div className="axil-map-wrapper m-b-xs-30">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d848618.3019582209!2d-117.3496119!3d33.8145003!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2c64ed3c3ce8f%3A0x8710c5557f723e2a!2s106+W+1st+St%2C+Los+Angeles%2C+CA+90012%2C+USA!5e0!3m2!1sen!2sbd!4v1563866499894!5m2!1sen!2sbd" width={600} height={450} allowFullScreen />
+                        <iframe src="https://www.google.com/maps/place/Mai+D%E1%BB%8Bch,+C%E1%BA%A7u+Gi%E1%BA%A5y,+H%C3%A0+N%E1%BB%99i,+Vi%E1%BB%87t+Nam/@21.0402463,105.7644019,15z/data=!3m1!4b1!4m6!3m5!1s0x313454c90abeff65:0x71a3921134bd13e4!8m2!3d21.0395659!4d105.7740712!16s%2Fg%2F1hb_dzz83?entry=ttu&g_ep=EgoyMDI1MDIyNi4xIKXMDSoASAFQAw%3D%3D" width={600} height={450} allowFullScreen />
                     </div>
                     {/* End of .axil-map-wrapper */}
                 </div>

@@ -1,5 +1,6 @@
 package com.thuyen.dev.papr.dto;
 
+import com.thuyen.dev.papr.entity.Author;
 import com.thuyen.dev.papr.entity.AuthorSocial;
 import lombok.*;
 

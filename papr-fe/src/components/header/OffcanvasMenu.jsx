@@ -8,13 +8,7 @@ const OffcanvasMenu = ({ ofcshow, ofcHandleClose }) => {
             <Offcanvas.Header closeButton className="close-offcanvasmeu"></Offcanvas.Header>
             <div className="side-nav">
                 <div className="side-nav-inner nicescroll-container">
-                    <form action="#" className="side-nav-search-form">
-                        <div className="form-group search-field">
-                            <input type="text" className="search-field" name="search-field" placeholder="Tìm kiếm..." />
-                            <button className="side-nav-search-btn"><i className="fas fa-search" /></button>
-                        </div>
-                        {/* End of .side-nav-search-form */}
-                    </form>
+
                     {/* End of .side-nav-search-form */}
                     <div className="side-nav-content">
                         <div className="row ">

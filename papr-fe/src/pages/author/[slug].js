@@ -1,24 +1,31 @@
 import Image from "next/image";
-import { getAllPosts, getPostBySlug } from "../../../lib/api";
 import Breadcrumb from "../../components/common/Breadcrumb";
 import HeadMeta from "../../components/elements/HeadMeta";
 import FooterOne from "../../components/footer/FooterOne";
 import HeaderOne from "../../components/header/HeaderOne";
 import PostLayoutTwo from "../../components/post/layout/PostLayoutTwo";
 import WidgetAd from "../../components/widget/WidgetAd";
-import WidgetCategory from "../../components/widget/WidgetCategory";
+// import WidgetCategory from "../../components/widget/WidgetCategory";
 import WidgetPost from "../../components/widget/WidgetPost";
 import WidgetSocialShare from "../../components/widget/WidgetSocialShare";
-import { slugify } from "../../utils";
+import { useRouter } from "next/router";
 
-const PostAuthor = ({ postData, allPosts }) => {
-    const authorContent = postData[0];
+const PostAuthor = ({ authorData, postData, allPosts }) => {
+    const router = useRouter();
+
+    if (router.isFallback) {
+        return <h2>Loading...</h2>;
+    }
+
+    if (!authorData) {
+        return <h2>Không tìm thấy tác giả.</h2>;
+    }
 
     return (
         <>
-            <HeadMeta metaTitle={authorContent.author_name} />
+            <HeadMeta metaTitle={authorData.authorName || "Không có tên"} />
             <HeaderOne />
-            <Breadcrumb aPage={authorContent.author_name} />
+            <Breadcrumb aPage={authorData.authorName || "Không có tên"} />
             <div className="banner banner__default bg-grey-light-three">
                 <div className="container">
                     <div className="row align-items-center">
@@ -27,28 +34,37 @@ const PostAuthor = ({ postData, allPosts }) => {
                                 <div className="media post-block post-block__mid m-b-xs-0">
                                     <a href="#" className="align-self-center">
                                         <Image
-                                            src={authorContent.author_img}
-                                            alt={authorContent.author_name}
+                                            src={authorData.authorImg || "/images/default-avatar.png"}
+                                            alt={authorData.authorName || "Không có tên"}
                                             width={210}
                                             height={210}
                                             className="m-r-xs-30"
                                         />
-                                        <div className="grad-overlay__transparent overlay-over" />
                                     </a>
                                     <div className="media-body">
-                                        <h2 className="h4 m-b-xs-15">{authorContent.author_name}</h2>
-                                        <p className="hover-line"><a href="https://example.com">https//www.example.com</a></p>
-                                        <p className="mid">{authorContent.author_bio}</p>
+                                        <h2 className="h4 m-b-xs-15">
+                                            {authorData.authorName || "Không có tên"}
+                                        </h2>
+                                        <p className="mid">
+                                            {authorData.authorBio || "Chưa có tiểu sử"}
+                                        </p>
                                         <div className="post-metas">
                                             <ul className="list-inline">
-                                                <li><a href="#"><i className="fal fa-user-edit" />Đã viết : ({postData.length})</a></li>
-                                                <li><a href="#"><i className="fal fa-comment" />Bình luận (12)</a></li>
+                                                <li>
+                                                    <a href="#">
+                                                        <i className="fal fa-user-edit" /> Đã viết: ({postData.length})
+                                                    </a>
+                                                </li>
                                             </ul>
                                         </div>
                                         <div className="author-social-share">
                                             <ul className="social-share social-share__with-bg">
-                                                {authorContent.author_social.map((data, index) => (
-                                                    <li key={index}><a href={data.url}><i className={data.icon} /></a></li>
+                                                {authorData.author_social?.map((data, index) => (
+                                                    <li key={index}>
+                                                        <a href={data.url}>
+                                                            <i className={data.icon} />
+                                                        </a>
+                                                    </li>
                                                 ))}
                                             </ul>
                                         </div>
@@ -71,13 +87,13 @@ const PostAuthor = ({ postData, allPosts }) => {
                             </div>
                         </div>
                         <div className="col-lg-4">
-                            <div className="post-sidebar">
+                            {/* <div className="post-sidebar">
                                 <WidgetAd />
                                 <WidgetSocialShare />
                                 <WidgetCategory cateData={allPosts} />
                                 <WidgetPost dataPost={allPosts} />
                                 <WidgetAd img="/images/clientbanner/clientbanner3.jpg" height={492} width={320} />
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>
@@ -85,50 +101,75 @@ const PostAuthor = ({ postData, allPosts }) => {
             <FooterOne />
         </>
     );
-}
+};
 
 export default PostAuthor;
 
+
+
 export async function getStaticProps({ params }) {
+    // Lấy slug từ URL
+    const slug = params.slug;
 
-    const postParams = params.slug;
+    // Chuyển slug thành tên tác giả: thay dấu gạch ngang bằng khoảng trắng
+    // và chuyển về kiểu chữ thường, sau đó có thể chuyển về kiểu Camel Case nếu cần.
+    // Ở đây mình chỉ đơn giản thay "-" bằng " "
+    const authorName = slug.replace(/-/g, " ");
 
-    const allPosts = getAllPosts([
-        'slug',
-        'cate',
-        'cate_img',
-        'title',
-        'excerpt',
-        'featureImg',
-        'date',
-        'author_name',
-        'author_img',
-        'author_social',
-        'author_bio'
-    ]);
+    // Gọi API lấy thông tin tác giả theo authorName
+    const authorRes = await fetch(`http://localhost:8082/api/authors/${encodeURIComponent(authorName)}`);
+    if (!authorRes.ok) {
+        return { notFound: true };
+    }
+    const authorData = await authorRes.json();
 
-    const getAuthorData = allPosts.filter(post => slugify(post.author_name) === postParams);
-    const postData = getAuthorData;
+    if (!authorData || Object.keys(authorData).length === 0) {
+        return { notFound: true };
+    }
+
+    // Gọi API lấy bài viết của tác giả theo authorName
+    const postRes = await fetch(`http://localhost:8082/api/posts/author/${encodeURIComponent(authorName)}`);
+    const postData = await postRes.json();
 
     return {
         props: {
-            postData,
-            allPosts
-        }
-    }
+            authorData,
+            postData: Array.isArray(postData) ? postData : []
+        },
+        revalidate: 10,
+    };
 }
+
+
 
 export async function getStaticPaths() {
-    const posts = getAllPosts(['author_name']);
-
-    const paths = posts.map(post => ({
-        params: {
-            slug: slugify(post.author_name)
+    try {
+        const res = await fetch("http://localhost:8082/api/authors/");
+        if (!res.ok) {
+            throw new Error("Failed to fetch authors");
         }
-    }))
+        const data = await res.json();
 
-    return {
-        paths,
-        fallback: false,
+        // Nếu API trả về { data: [...] } thì bạn cần lấy data.data
+        const authors = Array.isArray(data) ? data : data.data;
+
+        if (!Array.isArray(authors)) {
+            console.error("API /api/authors/ không trả về mảng:", data);
+            return { paths: [], fallback: false };
+        }
+
+        const paths = authors
+            .filter(author => author && author.authorName)
+            .map(author => ({
+                params: { slug: author.authorName.replace(/\s+/g, "-").toLowerCase() }
+            }));
+
+        return { paths, fallback: "blocking" };
+    } catch (error) {
+        console.error("Lỗi khi fetch authors:", error);
+        return { paths: [], fallback: false };
     }
 }
+
+
+

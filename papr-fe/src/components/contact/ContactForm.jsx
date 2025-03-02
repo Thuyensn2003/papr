@@ -45,10 +45,10 @@ const ContactForm = () => {
 			</div>
 			<div className="axil-contact-form-wrapper p-t-xs-10">
 				<form className="axil-contact-form row no-gutters" ref={form} onSubmit={sendEmail}>
-					<FormGroup pClass="col-12" type="text" label="Name" name="contact-name" />
-					<FormGroup pClass="col-12" type="text" label="Phone" name="contact-phone" />
+					<FormGroup pClass="col-12" type="text" label="Tên của bạn" name="contact-name" />
+					<FormGroup pClass="col-12" type="text" label="Số điện thoại" name="contact-phone" />
 					<FormGroup pClass="col-12" type="email" label="Email" name="contact-email" />
-					<FormGroup pClass="col-12" type="textarea" label="Message" name="contact-message" />
+					<FormGroup pClass="col-12" type="textarea" label="Lời nhắn" name="contact-message" />
 					<div className="col-12">
 						<button className="btn btn-primary m-t-xs-0 m-t-lg-20">
 							Gửi
