@@ -108,15 +108,16 @@ export default PostAuthor;
 
 
 export async function getStaticProps({ params }) {
-    // Lấy slug từ URL
-    const slug = params.slug;
+    const slug = params.slug; // Ví dụ: "ashley-graham"
 
-    // Chuyển slug thành tên tác giả: thay dấu gạch ngang bằng khoảng trắng
-    // và chuyển về kiểu chữ thường, sau đó có thể chuyển về kiểu Camel Case nếu cần.
-    // Ở đây mình chỉ đơn giản thay "-" bằng " "
-    const authorName = slug.replace(/-/g, " ");
+    // Chuyển đổi slug thành tên tác giả:
+    // Chia chuỗi theo dấu "-" sau đó viết hoa chữ cái đầu mỗi từ
+    const authorName = slug
+        .split("-")
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
 
-    // Gọi API lấy thông tin tác giả theo authorName
+    // Gọi API lấy thông tin tác giả theo tên
     const authorRes = await fetch(`http://localhost:8082/api/authors/${encodeURIComponent(authorName)}`);
     if (!authorRes.ok) {
         return { notFound: true };
@@ -127,7 +128,7 @@ export async function getStaticProps({ params }) {
         return { notFound: true };
     }
 
-    // Gọi API lấy bài viết của tác giả theo authorName
+    // Gọi API lấy bài viết của tác giả theo tên
     const postRes = await fetch(`http://localhost:8082/api/posts/author/${encodeURIComponent(authorName)}`);
     const postData = await postRes.json();
 
@@ -142,26 +143,22 @@ export async function getStaticProps({ params }) {
 
 
 
+
 export async function getStaticPaths() {
     try {
         const res = await fetch("http://localhost:8082/api/authors/");
-        if (!res.ok) {
-            throw new Error("Failed to fetch authors");
-        }
-        const data = await res.json();
-
-        // Nếu API trả về { data: [...] } thì bạn cần lấy data.data
-        const authors = Array.isArray(data) ? data : data.data;
+        if (!res.ok) throw new Error("Failed to fetch authors");
+        const authors = await res.json();
 
         if (!Array.isArray(authors)) {
-            console.error("API /api/authors/ không trả về mảng:", data);
+            console.error("API /api/authors/ không trả về mảng:", authors);
             return { paths: [], fallback: false };
         }
 
         const paths = authors
-            .filter(author => author && author.authorName)
+            .filter(author => author && author.slug)
             .map(author => ({
-                params: { slug: author.authorName.replace(/\s+/g, "-").toLowerCase() }
+                params: { slug: author.slug }
             }));
 
         return { paths, fallback: "blocking" };
@@ -170,6 +167,7 @@ export async function getStaticPaths() {
         return { paths: [], fallback: false };
     }
 }
+
 
 
 

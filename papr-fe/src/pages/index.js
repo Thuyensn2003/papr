@@ -22,9 +22,9 @@ const HomeOne = () => {
       <HeadMeta metaTitle="Home One" />
       <HeaderOne />
       <PostSectionOne postData={allPosts} />
-      <PostSectionTwo postData={allPosts} />
+      {/* <PostSectionTwo postData={allPosts} /> */}
       <PostSectionThree postData={allPosts} />
-      <PostSectionFour postData={allPosts} />
+      {/* <PostSectionFour postData={allPosts} /> */}
       <PostSectionFive postData={allPosts} adBanner={true} />
       <PostSectionSix postData={allPosts} />
       <FooterOne />
@@ -35,26 +35,4 @@ const HomeOne = () => {
 export default HomeOne;
 
 
-// export async function getStaticProps() {
-//   const allPosts = getAllPosts([
-//     'postFormat',
-//     'trending',
-//     'story',
-//     'slug',
-//     'title',
-//     'excerpt',
-//     'featureImg',
-//     'cate',
-//     'cate_bg',
-//     'cate_img',
-//     'author_name',
-//     'date',
-//     'post_views',
-//     'post_share',
-//   ])
-//  
-//   return {
-//     props: { allPosts }
-//   }
-// }
 

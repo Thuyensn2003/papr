@@ -30,8 +30,8 @@ public class Author {
     @Column(name = "slug", unique = true)
     private String slug;
 
-    // ✅ Tránh vòng lặp JSON vô hạn
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Post> posts;
+
 }

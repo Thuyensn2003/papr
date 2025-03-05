@@ -1,57 +1,36 @@
-import { getAllPosts } from "../../../lib/api";
-import FooterOne from "../../components/footer/FooterOne";
-import HeaderOne from "../../components/header/HeaderOne";
-import Breadcrumb from "../../components/common/Breadcrumb";
-import { slugify } from "../../utils";
 import HeadMeta from "../../components/elements/HeadMeta";
-import AdBanner from "../../components/common/AdBanner";
-import WidgetAd from "../../components/widget/WidgetAd";
-import WidgetSocialShare from "../../components/widget/WidgetSocialShare";
-import WidgetPost from "../../components/widget/WidgetPost";
+import HeaderOne from "../../components/header/HeaderOne";
+import FooterOne from "../../components/footer/FooterOne";
+import Breadcrumb from "../../components/common/Breadcrumb";
 import PostLayoutTwo from "../../components/post/layout/PostLayoutTwo";
-import WidgetCategory from "../../components/widget/WidgetCategory";
 
-
-const PostCategory = ({ postData, allPosts }) => {
-    const cateContent = postData[0];
-
+const PostCategory = ({ categoryData, postData, allPosts }) => {
     return (
         <>
-            <HeadMeta metaTitle={cateContent.cate} />
+            <HeadMeta metaTitle={categoryData.cate || "Danh mục"} />
             <HeaderOne />
-            <Breadcrumb aPage={cateContent.cate} />
-            {/* Banner Start here  */}
+            <Breadcrumb aPage={categoryData.cate || "Danh mục"} />
             <div className="banner banner__default bg-grey-light-three">
                 <div className="container">
                     <div className="row align-items-center">
                         <div className="col-lg-12">
                             <div className="post-title-wrapper">
-                                <h2 className="m-b-xs-0 axil-post-title hover-line">{cateContent.cate}</h2>
+                                <h2 className="m-b-xs-0 axil-post-title hover-line">{categoryData.cate}</h2>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            {/* Banner End here  */}
             <div className="random-posts section-gap">
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-8">
-                            <AdBanner />
-                            <div className="axil-content">
-                                {postData.map((data) => (
-                                    <PostLayoutTwo data={data} postSizeMd={true} key={data.slug} />
-                                ))}
-                            </div>
+                            {postData.map((data) => (
+                                <PostLayoutTwo data={data} postSizeMd={true} key={data.slug} />
+                            ))}
                         </div>
                         <div className="col-lg-4">
-                            <div className="post-sidebar">
-                                <WidgetAd />
-                                <WidgetSocialShare />
-                                <WidgetCategory cateData={allPosts} />
-                                <WidgetPost dataPost={allPosts} />
-                                <WidgetAd img="/images/clientbanner/clientbanner3.jpg" height={492} width={320} />
-                            </div>
+                            {/* Sidebar có thể sử dụng WidgetCategory với allPosts nếu cần */}
                         </div>
                     </div>
                 </div>
@@ -59,51 +38,54 @@ const PostCategory = ({ postData, allPosts }) => {
             <FooterOne />
         </>
     );
-}
+};
 
 export default PostCategory;
 
 
+
 export async function getStaticProps({ params }) {
+    const slug = params.slug;
 
-    const postParams = params.slug;
+    // Lấy thông tin danh mục theo slug
+    const categoryRes = await fetch(`http://localhost:8082/api/categories/${slug}`);
+    if (!categoryRes.ok) return { notFound: true };
+    const categoryData = await categoryRes.json();
 
-    const allPosts = getAllPosts([
-        'slug',
-        'cate',
-        'cate_img',
-        'title',
-        'excerpt',
-        'featureImg',
-        'date',
-        'post_views',
-        'read_time',
-        'author_name',
-        'author_social'
-    ]);
-
-    const getCategoryData = allPosts.filter(post => slugify(post.cate) === postParams);
-    const postData = getCategoryData;
+    // Lấy bài viết thuộc danh mục đó
+    const postsRes = await fetch(`http://localhost:8082/api/posts/category/${slug}`);
+    const postData = await postsRes.json();
 
     return {
         props: {
-            postData,
-            allPosts
-        }
-    }
+            categoryData,
+            postData: Array.isArray(postData) ? postData : []
+        },
+        revalidate: 10,
+    };
 }
 
+
 export async function getStaticPaths() {
-    const posts = getAllPosts(['cate']);
+    try {
+        const res = await fetch("http://localhost:8082/api/categories/");
+        if (!res.ok) throw new Error("Failed to fetch categories");
+        const categories = await res.json();
 
-    const paths = posts.map(post => ({
-        params: {
-            slug: slugify(post.cate)
+        if (!Array.isArray(categories)) {
+            console.error("API /api/categories/ không trả về mảng:", categories);
+            return { paths: [], fallback: false };
         }
-    }))
 
-    return {
-        paths,
-        fallback: false,
+        const paths = categories
+            .filter(cat => cat && cat.slug)
+            .map(cat => ({
+                params: { slug: cat.slug }
+            }));
+
+        return { paths, fallback: "blocking" };
+    } catch (error) {
+        console.error("Lỗi khi fetch categories:", error);
+        return { paths: [], fallback: false };
     }
 }

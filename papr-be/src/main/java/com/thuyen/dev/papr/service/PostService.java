@@ -3,8 +3,10 @@ package com.thuyen.dev.papr.service;
 import com.thuyen.dev.papr.dto.PostDto;
 import com.thuyen.dev.papr.entity.Author;
 import com.thuyen.dev.papr.entity.AuthorSocial;
+import com.thuyen.dev.papr.entity.Category;
 import com.thuyen.dev.papr.entity.Post;
 import com.thuyen.dev.papr.repository.AuthorRepository;
+import com.thuyen.dev.papr.repository.PostMapper;
 import com.thuyen.dev.papr.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +21,10 @@ public class PostService {
     @Autowired
     private AuthorService authorService;
     @Autowired
-    private AuthorRepository authorRepository; // Đảm bảo tiêm đúng repository
+    private AuthorRepository authorRepository;
+
+    @Autowired
+    private CategoryService categoryService;
 
     public List<Post> findAll() {
         return postRepository.findAll();
@@ -62,6 +67,25 @@ public class PostService {
             throw new RuntimeException("Author not found: " + author_name);
         }
         return postRepository.findByAuthorId(author.get().getId()).stream()
+                .map(this::mapToDto)
+                .toList();
+    }
+
+    public List<PostDto> findByCategorySlug(String slug) {
+        // Lấy Category dựa trên slug
+        Category category = categoryService.findBySlug(slug)
+                .orElseThrow(() -> new RuntimeException("Category not found: " + slug));
+        // Lấy bài viết dựa trên category_id
+        return postRepository.findByCategoryId(category.getId())
+                .stream()
+                .map(this::mapToDto) // mapToDto chuyển Post -> PostDto
+                .toList();
+    }
+
+    // Thêm phương thức để lấy bài viết theo authorId
+    public List<PostDto> findByAuthorId(Long authorId) {
+        return postRepository.findByAuthorId(authorId)
+                .stream()
                 .map(this::mapToDto)
                 .toList();
     }

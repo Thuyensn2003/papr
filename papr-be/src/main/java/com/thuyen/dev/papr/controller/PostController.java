@@ -37,4 +37,13 @@ public class PostController {
         return ResponseEntity.ok(posts);
     }
 
+    @GetMapping("/category/{slug}")
+    public ResponseEntity<List<PostDto>> getPostsByCategory(@PathVariable String slug) {
+        List<PostDto> posts = postService.findByCategorySlug(slug);
+        if (posts.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(posts);
+    }
+
 }

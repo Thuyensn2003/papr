@@ -1,28 +1,48 @@
-import { slugify } from "../../utils";
+import { useEffect, useState } from "react";
 import SectionTitle from "../elements/SectionTitle";
 import PostLayoutFour from "./layout/PostLayoutFour";
 
-const PostSectionSix = ({postData}) => {
+const PostSectionSix = () => {
+    const [foodPosts, setFoodPosts] = useState([]);
 
-    const foodPost = postData.filter(post => slugify(post.cate) === 'food' || slugify(post.cate) === 'drink');
+    useEffect(() => {
+        const fetchFoodPosts = async () => {
+            try {
+                const response = await fetch("http://localhost:8082/api/posts/category/am-thuc");
+                if (!response.ok) {
+                    throw new Error(`Lỗi HTTP! Status: ${response.status}`);
+                }
+                const data = await response.json();
+                console.log("Dữ liệu nhận được từ API:", data); // Debug dữ liệu nhận về
+                setFoodPosts(data);
+            } catch (error) {
+                console.error("Lỗi khi gọi API:", error);
+            }
+        };
 
-    return ( 
+        fetchFoodPosts();
+    }, []);
+
+    return (
         <div className="related-post p-b-xs-30">
             <div className="container">
-                <SectionTitle title="Food &amp; Drink" btnText="All FOOD &amp; DRINK"/>
+                <SectionTitle title="Ẩm thực" btnText="Tất cả bài viết về Ẩm thực" />
                 <div className="grid-wrapper">
                     <div className="row">
-                        {foodPost.slice(0, 4).map((data) => (
-                            <div className="col-lg-3 col-md-4" key={data.slug}>
-                                <PostLayoutFour data={data} />
-                            </div>
-                        ))}
+                        {foodPosts.length > 0 ? (
+                            foodPosts.slice(0, 4).map((data) => (
+                                <div className="col-lg-3 col-md-4" key={data.slug}>
+                                    <PostLayoutFour data={data} />
+                                </div>
+                            ))
+                        ) : (
+                            <p className="text-center">Không có bài viết nào.</p>
+                        )}
                     </div>
                 </div>
             </div>
         </div>
+    );
+};
 
-     );
-}
- 
 export default PostSectionSix;

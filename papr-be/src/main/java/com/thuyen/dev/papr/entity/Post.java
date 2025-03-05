@@ -33,9 +33,13 @@ public class Post {
     @Lob
     private String content;
 
-    // ✅ Tránh vòng lặp JSON vô hạn
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", nullable = false)
     @JsonBackReference
     private Author author;
+
+    // Quan hệ với Category
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
 }
