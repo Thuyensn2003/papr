@@ -4,11 +4,13 @@ import SocialLink from "../../data/social/SocialLink.json";
 
 const FooterOne = () => {
   const categories = [
-    { title: "Thế giới", items: ["U.N.", "Xung đột", "Khủng bố", "Khí hậu toàn cầu", "Môi trường"] },
-    { title: "Giải trí", items: ["Tin tức người nổi tiếng", "Phim", "Tin tức truyền hình", "Tin tức âm nhạc", "Tin tức phong cách", "Video giải trí"] },
-    { title: "Kinh doanh", items: ["Thị trường", "Chính trị", "Công nghệ", "Đặc trưng", "Lãnh đạo doanh nghiệp"] },
-    { title: "Sức khoẻ", items: ["Sống khỏe mạnh", "Nghiên cứu y khoa", "Sức khỏe tâm thần", "Ung thư", "Sức khỏe tim mạch", "Sức khỏe trẻ em"] },
-    { title: "Về chúng tôi", items: ["Liên hệ với chúng tôi", "Nghề nghiệp", "Quảng cáo", "Quan hệ truyền thông", "Sự tuân thủ"] },
+    { title: "Công nghệ", items: ["Sản phẩm mới", "Đánh giá"] },
+    { title: "Thời trang", items: ["Xu hướng", "Thương hiệu"] },
+    { title: "Ẩm thực", items: ["Công thức", "Đánh giá"] },
+    { title: "Du lịch", items: ["Điểm đến", "Kinh nghiệm"] },
+    { title: "Thể thao", items: ["Tin tức", "Sự kiện"] },
+    { title: "Giải trí", items: ["Phim", "Âm nhạc"] },
+    { title: "Xã hội", items: ["Sự kiện", "Hoạt động", "Cộng đồng"] },
   ];
 
   return (
@@ -37,7 +39,15 @@ const FooterOne = () => {
           <div className="row align-items-center">
             <div className="col-md">
               <Link href="/">
-                <a><Image src="/images/SMP.png" alt="footer logo" width={86} height={28} className="footer-logo" /></a>
+                <a>
+                  <Image
+                    src="/images/SMP.png"
+                    alt="footer logo"
+                    width={86}
+                    height={28}
+                    className="footer-logo"
+                  />
+                </a>
               </Link>
             </div>
             <div className="col-md-auto">
@@ -46,7 +56,9 @@ const FooterOne = () => {
                 <ul className="social-share social-share__with-bg">
                   {["fb", "twitter", "yt"].map((key) => (
                     <li key={key}>
-                      <a href={SocialLink[key].url}><i className={SocialLink[key].icon} /></a>
+                      <a href={SocialLink[key].url}>
+                        <i className={SocialLink[key].icon} />
+                      </a>
                     </li>
                   ))}
                 </ul>

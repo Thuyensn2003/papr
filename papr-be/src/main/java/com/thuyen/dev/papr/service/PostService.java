@@ -54,6 +54,7 @@ public class PostService {
                 .post_views(post.getPost_views())
                 .author_social(getDefaultAuthorSocial())
                 .content(post.getContent())
+                .rating(post.getRating())
                 .gallery(List.of("/images/posts/gallery-1.png", "/images/posts/gallery-2.png",
                         "/images/posts/gallery-3.png", "/images/posts/gallery-4.png"))
                 .build();
@@ -104,5 +105,12 @@ public class PostService {
     // Thêm phương thức findByCategoryId
     public List<Post> findByCategoryId(Long categoryId) {
         return postRepository.findByCategoryId(categoryId);
+    }
+
+    public List<PostDto> findPostsByRating(String rating) {
+        return postRepository.findPostsByRating(rating)
+                .stream()
+                .map(this::mapToDto)
+                .toList();
     }
 }

@@ -58,4 +58,13 @@ public class PostController {
         return ResponseEntity.ok(posts);
     }
 
+    @GetMapping("/rating/{rating}")
+    public ResponseEntity<List<PostDto>> getPostsByRating(@PathVariable String rating) {
+        List<PostDto> posts = postService.findPostsByRating(rating);
+        if (posts.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(posts);
+    }
+
 }

@@ -29,7 +29,7 @@ public class Post {
     private String featureImg;
     private String post_share;
     private String post_views;
-
+    private String rating;
     @Lob
     private String content;
 

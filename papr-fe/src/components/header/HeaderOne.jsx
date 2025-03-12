@@ -113,7 +113,7 @@ const HeaderOne = () => {
                   <li className="current-date">{dateFormate()}</li>
                   <li>
                     <Link href="/">
-                      <a>Quảng cáo</a>
+                      <a>Xin chào !</a>
                     </Link>
                   </li>
                   <li>

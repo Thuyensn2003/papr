@@ -73,21 +73,21 @@ const WidgetCategory = ({ cateData = [] }) => {
 		<>
 			<div className="category-widget m-b-xs-40">
 				<div className="widget-title">
-					<h3>Danh Mục</h3>
-					<div className="owl-nav">
+					<h3>Danh mục tin tức</h3>
+					{/* <div className="owl-nav">
 						<button className="custom-owl-prev" onClick={() => CustomNavRef?.current?.slickPrev()}>
 							<i className="feather icon-chevron-left" />
 						</button>
 						<button className="custom-owl-next" onClick={() => CustomNavRef?.current?.slickNext()}>
 							<i className="feather icon-chevron-right" />
 						</button>
-					</div>
+					</div> */}
 				</div>
 				<div className="category-carousel">
 					<Slider ref={CustomNavRef} {...slideSettings}>
 						<div className="cat-carousel-inner">
 							<ul className="category-list-wrapper">
-								{cateList.slice(0, 4).map((data) => (
+								{cateList.map((data) => (
 									<li className="category-list perfect-square" key={data.slug}>
 										{/* Thay Link bằng thẻ <a> với onClick để chuyển hướng */}
 										<a

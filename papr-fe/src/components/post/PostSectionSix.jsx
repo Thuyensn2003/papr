@@ -24,9 +24,9 @@ const PostSectionSix = () => {
     }, []);
 
     return (
-        <div className="related-post p-b-xs-30">
+        <div className="related-post p-b-xs-30 food-drink">
             <div className="container">
-                <SectionTitle title="Ẩm thực" btnText="Tất cả bài viết về Ẩm thực" />
+                <SectionTitle title="Ẩm thực" btnText="Bài viết về Ẩm thực" />
                 <div className="grid-wrapper">
                     <div className="row">
                         {foodPosts.length > 0 ? (
@@ -41,8 +41,22 @@ const PostSectionSix = () => {
                     </div>
                 </div>
             </div>
+            <style jsx>{`
+        /* Giả sử component SectionTitle sử dụng class .section-title để hiển thị tiêu đề */
+        .food-drink :global(.section-title) {
+          font-size: 2rem;
+          font-weight: bold;
+          color: #333;
+          text-transform: uppercase;
+          margin-bottom: 20px;
+          border-bottom: 2px solid #333;
+          padding-bottom: 10px;
+        }
+      `}</style>
         </div>
+
     );
+
 };
 
 export default PostSectionSix;

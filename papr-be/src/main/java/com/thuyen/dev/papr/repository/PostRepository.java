@@ -21,4 +21,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     List<Post> findByCategorySlug(String slug);
 
+    @Query(value = "SELECT p.* FROM posts p JOIN post_rating pr ON p.id = pr.post_id WHERE pr.rating = :rating", nativeQuery = true)
+    List<Post> findPostsByRating(@Param("rating") String rating);
 }

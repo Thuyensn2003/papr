@@ -29,5 +29,6 @@ public class PostDto {
     private String post_views;
     private String content;
     private List<String> gallery;
+    private String rating;
     private List<AuthorSocial> author_social;
 }
