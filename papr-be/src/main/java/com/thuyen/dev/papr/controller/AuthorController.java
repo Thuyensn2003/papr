@@ -36,13 +36,9 @@ public class AuthorController {
         return authorService.findByAuthorName(authorName);
     }
 
-    // API lấy thông tin tác giả kèm bài viết dựa trên slug
     @GetMapping("/{slug}/posts")
     public ResponseEntity<?> getAuthorWithPosts(@PathVariable String slug) {
-        // Chuyển slug thành tên tác giả gốc
-        String authorName = convertSlugToName(slug);
-
-        Optional<Author> authorOpt = authorService.findByAuthorName(authorName);
+        Optional<Author> authorOpt = authorService.findBySlug(slug);
         if (authorOpt.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -64,6 +60,15 @@ public class AuthorController {
             }
         }
         return String.join(" ", parts);
+    }
+
+    @GetMapping("/slug/{slug}")
+    public ResponseEntity<?> getAuthorBySlug(@PathVariable String slug) {
+        Optional<Author> authorOpt = authorService.findBySlug(slug);
+        if (authorOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(authorOpt.get());
     }
 
 }

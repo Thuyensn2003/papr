@@ -13,16 +13,14 @@ import WidgetPost from "../components/widget/WidgetPost";
 import WidgetSocialShare from "../components/widget/WidgetSocialShare";
 import { removeDuplicates } from "../utils";
 
-const AboutUs = ({ aboutData, allPosts }) => {
-
-    const AuthorList = removeDuplicates(allPosts, 'author_name');
-
+const AboutUs = ({ aboutData, allPosts, authors }) => {
     return (
         <>
             <HeadMeta metaTitle="About Us" />
             <HeaderOne />
             <Breadcrumb aPage="Về chúng tôi" />
             <BreadcrumbBanner pageTitle="Về chúng tôi" />
+
             <div className="axil-about-us section-gap-top p-b-xs-20">
                 <div className="container">
                     <figure className="m-b-xs-40">
@@ -40,41 +38,52 @@ const AboutUs = ({ aboutData, allPosts }) => {
                                 <div dangerouslySetInnerHTML={{ __html: aboutData.content }}></div>
                             </div>
                         </div>
-                        {/* End of .col-lg-8 */}
                         <div className="col-lg-4">
                             <aside className="post-sidebar">
-                                <WidgetNewsletter />
+                                {/* <WidgetNewsletter />
                                 <WidgetSocialShare />
-                                <WidgetPost dataPost={allPosts} />
+                                <WidgetPost dataPost={allPosts} /> */}
                             </aside>
                         </div>
                     </div>
                 </div>
             </div>
+
+            {/* 🔹 Hiển thị danh sách tác giả */}
             <div className="axil-our-team section-gap section-gap-top__with-text bg-grey-light-three">
                 <div className="container">
                     <div className="axil-team-grid-wrapper">
-                        <SectionTitleTwo title="" />
+                        <SectionTitleTwo title="Đội ngũ tác giả" />
                         <div className="row">
-                            {AuthorList.slice(0, 6).map((data) => (
-                                <div className="col-lg-4" key={data.slug}>
-                                    <TeamOne data={data} />
-                                </div>
-                            ))}
+                            {authors && authors.length > 0 ? (
+                                authors.slice(0, 6).map((author) => (
+                                    <div className="col-lg-4" key={author.slug}>
+                                        <TeamOne data={{
+                                            author_name: author.authorName,
+                                            author_img: author.authorImg || "/default-avatar.png",
+                                            author_desg: author.authorBio || "Chưa cập nhật",
+                                            author_social: []
+                                        }} />
+                                    </div>
+                                ))
+                            ) : (
+                                <p className="text-center">Không có tác giả nào để hiển thị.</p>
+                            )}
                         </div>
                     </div>
                 </div>
             </div>
+
             <FooterOne />
         </>
     );
-}
+};
+
 
 export default AboutUs;
 
 
-export async function getStaticProps() {
-
+export async function getServerSideProps() {
     const allPosts = getAllPosts([
         'slug',
         'title',
@@ -85,20 +94,36 @@ export async function getStaticProps() {
         'author_img',
         'author_desg',
         'author_social'
-    ])
+    ]);
 
-    const aboutData = getFileContentBySlug('AboutData', 'src/data/about')
-    const content = await markdownToHtml(aboutData.content || "")
+    const aboutData = getFileContentBySlug('AboutData', 'src/data/about');
+    const content = await markdownToHtml(aboutData.content || "");
+
+    let authors = [];
+    try {
+        const res = await fetch("http://localhost:8082/api/authors/");
+        if (res.ok) {
+            authors = await res.json();
+        } else {
+            console.error("API trả về lỗi:", res.status);
+        }
+    } catch (error) {
+        console.error("Lỗi khi gọi API:", error);
+    }
+
     return {
         props: {
             aboutData: {
                 ...aboutData,
                 content
             },
-            allPosts
+            allPosts,
+            authors
         }
-    }
+    };
 }
+
+
 
 
 

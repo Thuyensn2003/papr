@@ -46,4 +46,16 @@ public class PostController {
         return ResponseEntity.ok(posts);
     }
 
+    @GetMapping("/category/id/{categoryId}")
+    public ResponseEntity<List<PostDto>> getPostsByCategoryId(@PathVariable Long categoryId) {
+        List<PostDto> posts = postService.findByCategoryId(categoryId)
+                .stream()
+                .map(postService::mapToDto)
+                .toList();
+        if (posts.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(posts);
+    }
+
 }

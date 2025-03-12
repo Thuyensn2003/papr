@@ -18,7 +18,6 @@ const WidgetPost = ({ dataPost }) => {
                 <Nav.Link eventKey="comments">COMMENTS</Nav.Link>
                 </Nav.Item> */}
                 </Nav>
-
                 <Tab.Content>
                     <Tab.Pane eventKey="recent">
                         {dataPost.slice(0, 4).map((data) => (

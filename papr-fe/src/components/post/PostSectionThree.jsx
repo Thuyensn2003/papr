@@ -8,7 +8,7 @@ const PostSectionThree = ({ postData }) => {
   return (
     <div className="section-gap section-gap-top__with-text trending-stories">
       <div className="container">
-        <SectionTitle title="Tin tức thịnh hành" btnText="TẤT CẢ TIN TỨC THỊNH HÀNH" />
+        <SectionTitle title="Tin tức thịnh hành" btnText="Tất cả tin thịnh hành" />
         <div className="row">
           {trendingPost.slice(0, 6).map((data) => (
             <div className="col-lg-6" key={data.slug}>

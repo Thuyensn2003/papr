@@ -26,6 +26,11 @@ public class PostService {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    public PostService(PostRepository postRepository) {
+        this.postRepository = postRepository;
+    }
+
     public List<Post> findAll() {
         return postRepository.findAll();
     }
@@ -82,6 +87,12 @@ public class PostService {
                 .toList();
     }
 
+    public Optional<Post> findBySlug(String slug) {
+        return postRepository.findAll().stream()
+                .filter(post -> post.getSlug().equals(slug))
+                .findFirst();
+    }
+
     // Thêm phương thức để lấy bài viết theo authorId
     public List<PostDto> findByAuthorId(Long authorId) {
         return postRepository.findByAuthorId(authorId)
@@ -90,4 +101,8 @@ public class PostService {
                 .toList();
     }
 
+    // Thêm phương thức findByCategoryId
+    public List<Post> findByCategoryId(Long categoryId) {
+        return postRepository.findByCategoryId(categoryId);
+    }
 }

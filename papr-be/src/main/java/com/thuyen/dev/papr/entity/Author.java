@@ -34,4 +34,12 @@ public class Author {
     @JsonManagedReference
     private List<Post> posts;
 
+    @PrePersist
+    @PreUpdate
+    public void generateSlug() {
+        if (this.authorName != null) {
+            this.slug = this.authorName.toLowerCase().trim().replaceAll("\\s+", "-");
+        }
+    }
+
 }
