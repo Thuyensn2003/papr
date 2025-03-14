@@ -20,9 +20,10 @@ const PostLayoutThree = ({ data, postSizeLg, pClass, videoPost }) => {
 			<div className="media post-block position-absolute">
 				<div className={`media-body ${postSizeLg === true ? "media-body__big" : ""}`}>
 					<div className="post-cat-group m-b-xs-10">
-						<Link href={`/category/${slugify(data.cate)}`}>
-							<a className={`post-cat cat-btn ${data.cate_bg ?? "bg-color-blue-one"}`}>{data.cate}</a>
-						</Link>
+						{/* Thay Link bằng <span> để loại bỏ khả năng click */}
+						<span className={`post-cat cat-btn ${data.cate_bg ?? "bg-color-blue-one"}`}>
+							{data.cate}
+						</span>
 					</div>
 					<div className="axil-media-bottom">
 						<h3 className="axil-post-title hover-line hover-line">
@@ -38,7 +39,7 @@ const PostLayoutThree = ({ data, postSizeLg, pClass, videoPost }) => {
 										<a className="post-author">{data.author_name}</a>
 									</Link>
 								</li>
-								{postSizeLg === true ?
+								{postSizeLg === true ? (
 									<>
 										<li>
 											<i className="dot">.</i>{data.date}
@@ -52,7 +53,7 @@ const PostLayoutThree = ({ data, postSizeLg, pClass, videoPost }) => {
 											{data.post_share}
 										</li>
 									</>
-									: ""}
+								) : ""}
 							</ul>
 						</div>
 					</div>

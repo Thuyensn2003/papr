@@ -19,9 +19,9 @@ const PostVideoTwo = ({ data, pClass, videoIcon }) => {
 
       <div className="media-body">
         <div className="post-cat-group">
-          <Link href={`/category/${slugify(data.cate)}`}>
+          <span href={`/category/${slugify(data.cate)}`}>
             <a className={`post-cat ${data.cate_bg ?? "bg-color-blue-one"}`}>{data.cate}</a>
-          </Link>
+          </span>
         </div>
         <h3 className="axil-post-title hover-line hover-line">
           <Link href={`/post/${data.slug}`}>

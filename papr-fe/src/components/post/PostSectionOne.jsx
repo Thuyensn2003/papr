@@ -18,7 +18,7 @@ const PostSectionOne = ({ postData }) => {
             <div className="axil-recent-news">
               <SectionTitle
                 title="Tin tức gần đây"
-                btnText="TẤT CẢ TIN TỨC GẦN ĐÂY"
+                btnText=""
                 pClass="m-b-xs-30"
               />
               <div className="axil-content">

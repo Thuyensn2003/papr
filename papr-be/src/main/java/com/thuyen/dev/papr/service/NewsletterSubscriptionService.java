@@ -16,7 +16,7 @@ public class NewsletterSubscriptionService {
     }
 
     public NewsletterSubscription subscribe(String email) {
-        // Nếu muốn chặn đăng ký trùng email, kiểm tra ở đây
+        // check trùng lặp
         if (repository.existsByEmail(email)) {
             throw new RuntimeException("Email này đã đăng ký nhận tin trước đó.");
         }

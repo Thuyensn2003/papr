@@ -24,12 +24,11 @@ const AboutUs = ({ aboutData, allPosts, authors }) => {
             <div className="axil-about-us section-gap-top p-b-xs-20">
                 <div className="container">
                     <figure className="m-b-xs-40">
-                        <Image
-                            src={aboutData.data.featuredImg}
-                            height={451}
-                            width={1110}
+                        <img
+                            src={aboutData.featuredImg}
                             alt="about us"
                             className="img-fluid mx-auto"
+                            style={{ width: "1110px", height: "451px" }}
                         />
                     </figure>
                     <div className="row">
@@ -40,30 +39,30 @@ const AboutUs = ({ aboutData, allPosts, authors }) => {
                         </div>
                         <div className="col-lg-4">
                             <aside className="post-sidebar">
-                                {/* <WidgetNewsletter />
-                                <WidgetSocialShare />
-                                <WidgetPost dataPost={allPosts} /> */}
+                                {/* Nếu cần thêm widget */}
                             </aside>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* 🔹 Hiển thị danh sách tác giả */}
+            {/* Hiển thị danh sách tác giả */}
             <div className="axil-our-team section-gap section-gap-top__with-text bg-grey-light-three">
                 <div className="container">
                     <div className="axil-team-grid-wrapper">
-                        <SectionTitleTwo title="Đội ngũ tác giả" />
+                        <h2>Đội ngũ tác giả</h2>
                         <div className="row">
                             {authors && authors.length > 0 ? (
                                 authors.slice(0, 6).map((author) => (
                                     <div className="col-lg-4" key={author.slug}>
-                                        <TeamOne data={{
-                                            author_name: author.authorName,
-                                            author_img: author.authorImg || "/default-avatar.png",
-                                            author_desg: author.authorBio || "Chưa cập nhật",
-                                            author_social: []
-                                        }} />
+                                        <TeamOne
+                                            data={{
+                                                author_name: author.authorName,
+                                                author_img: author.authorImg || "/default-avatar.png",
+                                                author_desg: author.authorBio || "Chưa cập nhật",
+                                                author_social: []
+                                            }}
+                                        />
                                     </div>
                                 ))
                             ) : (
@@ -79,25 +78,34 @@ const AboutUs = ({ aboutData, allPosts, authors }) => {
     );
 };
 
-
 export default AboutUs;
 
 
 export async function getServerSideProps() {
-    const allPosts = getAllPosts([
-        'slug',
-        'title',
-        'featureImg',
-        'cate',
-        'cate_bg',
-        'author_name',
-        'author_img',
-        'author_desg',
-        'author_social'
-    ]);
+    let allPosts = [];
+    try {
+        const postsRes = await fetch("http://localhost:8082/api/posts/");
+        if (postsRes.ok) {
+            allPosts = await postsRes.json();
+        } else {
+            console.error("Posts API lỗi với status:", postsRes.status);
+        }
+    } catch (error) {
+        console.error("Lỗi khi gọi API posts:", error);
+    }
 
-    const aboutData = getFileContentBySlug('AboutData', 'src/data/about');
-    const content = await markdownToHtml(aboutData.content || "");
+    let aboutData = {};
+    try {
+        // Giả sử bạn đã triển khai endpoint để lấy dữ liệu về "About Us"
+        const aboutRes = await fetch("http://localhost:8082/api/about");
+        if (aboutRes.ok) {
+            aboutData = await aboutRes.json();
+        } else {
+            console.error("About API lỗi với status:", aboutRes.status);
+        }
+    } catch (error) {
+        console.error("Lỗi khi gọi API about:", error);
+    }
 
     let authors = [];
     try {
@@ -105,24 +113,20 @@ export async function getServerSideProps() {
         if (res.ok) {
             authors = await res.json();
         } else {
-            console.error("API trả về lỗi:", res.status);
+            console.error("Authors API lỗi với status:", res.status);
         }
     } catch (error) {
-        console.error("Lỗi khi gọi API:", error);
+        console.error("Lỗi khi gọi API authors:", error);
     }
 
     return {
         props: {
-            aboutData: {
-                ...aboutData,
-                content
-            },
+            aboutData,
             allPosts,
-            authors
-        }
+            authors,
+        },
     };
 }
-
 
 
 

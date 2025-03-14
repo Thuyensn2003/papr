@@ -10,9 +10,9 @@ const MetaDataOne = ({ metaData }) => {
           <div className="col-lg-6">
             <div className="post-title-wrapper">
               <div className="btn-group">
-                <Link href={`/category/${slugify(metaData.cate)}`}>
+                <span href={`/category/${slugify(metaData.cate)}`}>
                   <a className={`cat-btn ${metaData.cate_bg ?? "bg-color-blue-one"}`}>{metaData.cate}</a>
-                </Link>
+                </span>
               </div>
               <h2 className="m-t-xs-20 m-b-xs-0 axil-post-title hover-line">{metaData.title}</h2>
               <div className="post-metas banner-post-metas m-t-xs-20">

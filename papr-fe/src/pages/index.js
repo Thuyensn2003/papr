@@ -10,6 +10,7 @@ import PostSectionSix from "../components/post/PostSectionSix";
 import PostSectionThree from "../components/post/PostSectionThree";
 import PostSectionTwo from "../components/post/PostSectionTwo";
 import { useEffect, useState } from "react";
+import ChatBot from "../components/ChatBot";
 
 const HomeOne = () => {
   const [allPosts, setAllPosts] = useState([]);
@@ -27,6 +28,7 @@ const HomeOne = () => {
       <PostSectionSix postData={allPosts} />
       {/* <PostSectionFour postData={allPosts} /> */}
       <PostSectionFive postData={allPosts} adBanner={false} />
+      <ChatBot />
       <FooterOne />
     </>
   );

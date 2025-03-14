@@ -1,7 +1,6 @@
 package com.thuyen.dev.papr.controller;
 
 import com.thuyen.dev.papr.dto.PostDto;
-import com.thuyen.dev.papr.entity.Post;
 import com.thuyen.dev.papr.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3001") // Hoặc 3001 nếu dùng Next.js
+@CrossOrigin(origins = { "http://localhost:3001", "http://127.0.0.1:5500" }) // Hoặc 3001 nếu dùng Next.js
 @RestController
 @RequestMapping("/api/posts")
 public class PostController {
@@ -63,6 +62,24 @@ public class PostController {
         List<PostDto> posts = postService.findPostsByRating(rating);
         if (posts.isEmpty()) {
             return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(posts);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<PostDto>> searchPosts(@RequestParam("question") String question) {
+        List<PostDto> posts = postService.searchPostsByQuestion(question);
+        if (posts.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(posts);
+    }
+
+    @GetMapping("/search/category")
+    public ResponseEntity<List<PostDto>> searchPostsByCategory(@RequestParam("category") String category) {
+        List<PostDto> posts = postService.searchPostsByCategory(category);
+        if (posts.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.ok(posts);
     }

@@ -8,7 +8,7 @@ const PostSectionTwo = ({ postData }) => {
   return (
     <div className="section-gap section-gap-top__with-text top-stories bg-grey-light-three">
       <div className="container">
-        <SectionTitle title="TIN TỨC HÀNG ĐẦU" btnText="TẤT CẢ TIN TỨC HÀNG ĐẦU" />
+        <SectionTitle title="TIN TỨC HÀNG ĐẦU" btnText="" />
         <div className="row">
           <div className="col-lg-8">
             {topPosts.slice(0, 1).map((data) => (

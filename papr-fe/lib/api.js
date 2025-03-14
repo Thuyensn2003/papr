@@ -46,21 +46,21 @@ export function getAllPosts(fields = []) {
 
 export function getFileContentBySlug(fileName, postsPath) {
 
-    const postFilePath = join(postsPath, `${fileName}.md`)
-    const fileContents = fs.readFileSync(postFilePath, 'utf8')
+  const postFilePath = join(postsPath, `${fileName}.md`)
+  const fileContents = fs.readFileSync(postFilePath, 'utf8')
 
-    const { data, content } = matter(fileContents)
+  const { data, content } = matter(fileContents)
 
-    return {
-      data,
-      content
-    }
+  return {
+    data,
+    content
+  }
 }
 
 
 
 
 
- 
+
 
 

@@ -3,7 +3,6 @@ package com.thuyen.dev.papr.dto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
-import com.thuyen.dev.papr.dto.PostDto;
 import com.thuyen.dev.papr.entity.Post;
 
 @Mapper(componentModel = "spring")

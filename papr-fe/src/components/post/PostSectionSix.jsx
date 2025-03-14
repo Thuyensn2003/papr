@@ -26,7 +26,7 @@ const PostSectionSix = () => {
     return (
         <div className="related-post p-b-xs-30 food-drink">
             <div className="container">
-                <SectionTitle title="Ẩm thực" btnText="Bài viết về Ẩm thực" />
+                <SectionTitle title="Ẩm thực" btnText="" />
                 <div className="grid-wrapper">
                     <div className="row">
                         {foodPosts.length > 0 ? (

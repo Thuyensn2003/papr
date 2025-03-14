@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/newsletters")
-@CrossOrigin(origins = "http://localhost:3001") // nếu bạn dùng Next.js trên cổng 3001
+@CrossOrigin(origins = "http://localhost:3001")
 public class NewsletterSubscriptionController {
 
     private final NewsletterSubscriptionService subscriptionService;

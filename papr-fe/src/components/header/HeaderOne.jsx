@@ -215,7 +215,7 @@ const HeaderOne = () => {
                     <input
                       type="text"
                       className="navbar-search-field"
-                      placeholder="Search Here..."
+                      placeholder="Tìm kiếm gì đó..."
                       value={searchQuery}
                       onChange={handleSearch}
                     />

@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { slugify } from "../../../utils";
 
 const PostLayoutTwo = ({ data, postSizeMd, postBgDark }) => {
   return (
@@ -19,25 +18,22 @@ const PostLayoutTwo = ({ data, postSizeMd, postBgDark }) => {
       </Link>
       <div className="media-body">
         <div className="post-cat-group m-b-xs-10">
-          <Link href={`/category/${slugify(data.cate)}`}>
-            <a className={`post-cat cat-btn ${data.cate_bg ?? "bg-color-blue-one"}`}>{data.cate}</a>
-          </Link>
+          {/* Thay Link bằng <span> để loại bỏ khả năng click */}
+          <span className={`post-cat cat-btn ${data.cate_bg ?? "bg-color-blue-one"}`}>
+            {data.cate}
+          </span>
         </div>
         <h3 className="axil-post-title hover-line hover-line">
           <Link href={`/post/${data.slug}`}>
             <a>{data.title}</a>
           </Link>
         </h3>
-        {postSizeMd === true ?
-          <p className="mid">{data.excerpt}</p>
-
-          : ""
-        }
+        {postSizeMd === true ? <p className="mid">{data.excerpt}</p> : ""}
         <div className="post-metas">
           <ul className="list-inline">
             <li>
               <span>Viết bởi :</span>
-              <Link href={`/author/${slugify(data.author_name)}`}>
+              <Link href={`/author/${data.author_name}`}>
                 <a className="post-author">{data.author_name}</a>
               </Link>
             </li>
